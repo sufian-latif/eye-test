@@ -5,6 +5,7 @@ import pyscreenshot
 import time
 from PIL import Image
 import random
+from PyWinMouse import Mouse
 
 
 def getGridSize(image):
@@ -52,13 +53,19 @@ def findTheChosenOne(image):
 
         if color != color1 and color != color2:
             return centers[x][y]
+    return None
 
 
 url = 'https://www.igame.com/eye-test/?fbs=32'
 
-# webbrowser.open_new(url)
-# time.sleep(10)
+webbrowser.open_new(url)
+time.sleep(10)
 
-# im=pyscreenshot.grab(bbox = (647, 286, 983, 622))
-im = Image.open('7.png')
+startX = 647
+startY = 286
+width = 336
+height = 336
+im=pyscreenshot.grab(bbox = (startX, startY, startX + width, startY + height))
+# im = Image.open('7.png')
+im.show()
 print findTheChosenOne(im)
