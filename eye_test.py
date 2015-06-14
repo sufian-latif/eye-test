@@ -1,15 +1,13 @@
-import PIL.Image
-
 __author__ = 'sufianlatif'
 
 import webbrowser
 import pyscreenshot
 import time
 from PIL import Image
+import random
 
 
 def getGridSize(image):
-    assert isinstance(image, PIL.Image.Image)
     width = image.size[0]
     tmp = 10
     size = 0
@@ -28,9 +26,33 @@ def getCellCenters(image):
     gap = 4
     cellSize = int((image.size[0] - (n - 1) * gap) / n)
     stops = [(2 * i + 1) * cellSize / 2 + i * gap for i in range(n)]
-    print stops
     points = [[(x, y) for x in stops] for y in stops]
     return points
+
+
+def findTheChosenOne(image):
+    gridSize = getGridSize(image)
+    centers = getCellCenters(image)
+    n = gridSize * gridSize
+    for i in range(n):
+        x, y = i / gridSize, i % gridSize
+        color = image.getpixel(centers[x][y])
+
+        tmp1 = random.randint(0, n - 1)
+        while tmp1 == i:
+            tmp1 = random.randint(0, n - 1)
+        x1, y1 = tmp1 / gridSize, tmp1 % gridSize
+        color1 = image.getpixel(centers[x1][y1])
+
+        tmp2 = random.randint(0, n - 1)
+        while tmp2 == i or tmp2 == tmp1:
+            tmp2 = random.randint(0, n - 1)
+        x2, y2 = tmp2 / gridSize, tmp2 % gridSize
+        color2 = image.getpixel(centers[x2][y2])
+
+        if color != color1 and color != color2:
+            return centers[x][y]
+
 
 url = 'https://www.igame.com/eye-test/?fbs=32'
 
@@ -39,4 +61,4 @@ url = 'https://www.igame.com/eye-test/?fbs=32'
 
 # im=pyscreenshot.grab(bbox = (647, 286, 983, 622))
 im = Image.open('7.png')
-getCellCenters(im)
+print findTheChosenOne(im)
