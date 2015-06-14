@@ -67,5 +67,8 @@ width = 336
 height = 336
 im=pyscreenshot.grab(bbox = (startX, startY, startX + width, startY + height))
 # im = Image.open('7.png')
-im.show()
-print findTheChosenOne(im)
+#im.show()
+x, y = findTheChosenOne(im)
+mouse = Mouse()
+mouse.move_mouse(startX + x, startY + y)
+mouse.left_click()
